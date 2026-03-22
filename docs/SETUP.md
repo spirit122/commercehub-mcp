@@ -75,11 +75,13 @@ MERCADOLIBRE_REFRESH_TOKEN=TG-xxxxxxxx
 MERCADOLIBRE_SITE_ID=MLM
 ```
 
-## Conexion con clientes MCP
+## Conexion con clientes de IA
+
+CommerceHub es compatible con **todos los clientes MCP**. Selecciona el tuyo:
 
 ### Claude Desktop
 
-Edita `claude_desktop_config.json`:
+Edita `claude_desktop_config.json` (ubicacion: `~/Library/Application Support/Claude/` en Mac, `%APPDATA%/Claude/` en Windows):
 
 ```json
 {
@@ -96,23 +98,116 @@ Edita `claude_desktop_config.json`:
 }
 ```
 
-### Claude Code
+### Claude Code (CLI)
 
 ```bash
 claude mcp add commercehub -- node /ruta/a/commercehub-mcp/dist/index.js
 ```
 
-### Cursor / VS Code
+### ChatGPT (via Open WebUI)
 
-Agrega al settings de MCP del editor la misma configuracion que Claude Desktop.
+Open WebUI soporta servidores MCP nativamente. Ve a Settings > Tools > MCP Servers:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+### Gemini (Google AI Studio)
+
+Google AI Studio soporta MCP servers. En la seccion Tools, configura:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+### Cursor IDE
+
+Crea el archivo `.cursor/mcp.json` en la raiz de tu proyecto:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"],
+      "env": {
+        "SHOPIFY_STORE_URL": "https://tu-tienda.myshopify.com",
+        "SHOPIFY_ACCESS_TOKEN": "shpat_xxxxx"
+      }
+    }
+  }
+}
+```
+
+### Windsurf (Codeium)
+
+Edita `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+### Continue.dev (VS Code / JetBrains)
+
+Edita `~/.continue/config.yaml`:
+
+```yaml
+mcpServers:
+  - name: commercehub
+    command: node
+    args:
+      - /ruta/a/commercehub-mcp/dist/index.js
+    env:
+      SHOPIFY_STORE_URL: https://tu-tienda.myshopify.com
+      SHOPIFY_ACCESS_TOKEN: shpat_xxxxx
+```
+
+### Cline (VS Code Extension)
+
+En VS Code, abre la paleta de comandos > Cline: MCP Settings:
+
+```json
+{
+  "commercehub": {
+    "command": "node",
+    "args": ["/ruta/a/commercehub-mcp/dist/index.js"],
+    "env": {
+      "SHOPIFY_STORE_URL": "https://tu-tienda.myshopify.com",
+      "SHOPIFY_ACCESS_TOKEN": "shpat_xxxxx"
+    }
+  }
+}
+```
 
 ## Verificacion
 
-Despues de configurar, prueba con:
+Despues de configurar cualquier cliente, prueba con:
 
 ```
 "Lista las tiendas conectadas"
 "Muestrame 5 productos de Shopify"
+"Cuales son las ordenes pendientes?"
 ```
 
 Si ves resultados, todo esta funcionando correctamente.

@@ -11,6 +11,14 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
+[![Claude](https://img.shields.io/badge/Claude-Compatible-f97316?style=flat-square)](https://claude.ai)
+[![ChatGPT](https://img.shields.io/badge/ChatGPT-Compatible-10a37f?style=flat-square)](https://openai.com)
+[![Gemini](https://img.shields.io/badge/Gemini-Compatible-4285f4?style=flat-square)](https://ai.google)
+[![Cursor](https://img.shields.io/badge/Cursor-Compatible-000?style=flat-square)](https://cursor.com)
+[![Windsurf](https://img.shields.io/badge/Windsurf-Compatible-06b6d4?style=flat-square)](https://codeium.com)
+[![Continue](https://img.shields.io/badge/Continue.dev-Compatible-e11d48?style=flat-square)](https://continue.dev)
+[![Cline](https://img.shields.io/badge/Cline-Compatible-8b5cf6?style=flat-square)](https://github.com/cline/cline)
+
 [English](#english) | [Instalacion](#instalacion) | [Guia Rapida](#guia-rapida) | [Herramientas](#herramientas) | [Documentacion](#documentacion)
 
 ---
@@ -40,27 +48,44 @@ En lugar de alternar entre dashboards de Shopify, WooCommerce, Stripe y MercadoL
 | **Stripe** | Si | Si | - | Si | Si |
 | **MercadoLibre** | Si | Si | Si | Si | Si |
 
+## Clientes de IA compatibles
+
+| Cliente | Tipo | Estado |
+|:---:|:---:|:---:|
+| **Claude Desktop** | App de escritorio | Soportado |
+| **Claude Code** | CLI | Soportado |
+| **ChatGPT** | via Open WebUI | Soportado |
+| **Gemini** | Google AI Studio | Soportado |
+| **Cursor** | IDE | Soportado |
+| **Windsurf** | IDE (Codeium) | Soportado |
+| **Continue.dev** | VS Code / JetBrains | Soportado |
+| **Cline** | VS Code Extension | Soportado |
+
+> CommerceHub usa el protocolo MCP estandar (stdio), por lo que es compatible con **cualquier cliente** que soporte Model Context Protocol.
+
 ## Arquitectura
 
 ```
-                    +------------------+
-                    |   Claude / AI    |
-                    |     Agent        |
-                    +--------+---------+
+  +----------+  +----------+  +----------+  +----------+
+  |  Claude  |  | ChatGPT  |  |  Gemini  |  |  Cursor  |  ...
+  | Desktop  |  | Open Web |  |  Studio  |  |   IDE    |
+  +----+-----+  +----+-----+  +----+-----+  +----+-----+
+       |              |              |              |
+       +--------------+--------------+--------------+
                              |
-                        MCP Protocol
+                      MCP Protocol (stdio)
                              |
                     +--------+---------+
                     |   CommerceHub    |
                     |   MCP Server     |
                     +--------+---------+
                              |
-              +--------------+--------------+
-              |              |              |
-        +-----+----+  +-----+----+  +------+-----+
-        |  Shopify  |  |   Woo    |  |   Stripe   |  ...
-        |  Provider |  | Commerce |  |  Provider  |
-        +----------+  +----------+  +------------+
+         +-------------------+-------------------+
+         |              |              |              |
+   +-----+----+  +-----+----+  +------+-----+  +-----+------+
+   |  Shopify |  |   Woo    |  |   Stripe   |  | MercadoLibre|
+   |  Admin   |  | Commerce |  |    API     |  |    API      |
+   +----------+  +----------+  +------------+  +-------------+
 ```
 
 ## Instalacion
@@ -87,7 +112,12 @@ cp .env.example .env
 # Edita .env con tus credenciales
 ```
 
-### 3. Conectar con Claude Desktop
+### 3. Conectar con tu cliente de IA
+
+CommerceHub es compatible con **todos los clientes MCP**:
+
+<details>
+<summary><strong>Claude Desktop</strong></summary>
 
 Agrega a tu `claude_desktop_config.json`:
 
@@ -99,19 +129,118 @@ Agrega a tu `claude_desktop_config.json`:
       "args": ["/ruta/a/commercehub-mcp/dist/index.js"],
       "env": {
         "SHOPIFY_STORE_URL": "https://tu-tienda.myshopify.com",
-        "SHOPIFY_ACCESS_TOKEN": "shpat_xxxxx",
-        "STRIPE_SECRET_KEY": "sk_live_xxxxx"
+        "SHOPIFY_ACCESS_TOKEN": "shpat_xxxxx"
       }
     }
   }
 }
 ```
+</details>
 
-### 4. Conectar con Claude Code
+<details>
+<summary><strong>Claude Code</strong></summary>
 
 ```bash
 claude mcp add commercehub node /ruta/a/commercehub-mcp/dist/index.js
 ```
+</details>
+
+<details>
+<summary><strong>ChatGPT (via Open WebUI)</strong></summary>
+
+Open WebUI soporta MCP servers. Configura en Settings > Tools > MCP:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>Cursor IDE</strong></summary>
+
+Agrega a `.cursor/mcp.json` en tu proyecto:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>Windsurf (Codeium)</strong></summary>
+
+Agrega a `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>Continue.dev (VS Code / JetBrains)</strong></summary>
+
+Agrega a `~/.continue/config.yaml`:
+
+```yaml
+mcpServers:
+  - name: commercehub
+    command: node
+    args:
+      - /ruta/a/commercehub-mcp/dist/index.js
+```
+</details>
+
+<details>
+<summary><strong>Cline (VS Code)</strong></summary>
+
+En VS Code, abre Cline Settings > MCP Servers > Add:
+
+```json
+{
+  "commercehub": {
+    "command": "node",
+    "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>Gemini (Google AI Studio)</strong></summary>
+
+Google AI Studio soporta MCP. Configura el server en la seccion de Tools:
+
+```json
+{
+  "mcpServers": {
+    "commercehub": {
+      "command": "node",
+      "args": ["/ruta/a/commercehub-mcp/dist/index.js"]
+    }
+  }
+}
+```
+</details>
 
 ## Guia Rapida
 
@@ -295,6 +424,7 @@ MIT License - ver [LICENSE](LICENSE) para detalles.
 ### Key Features
 - **37 MCP Tools** across 5 categories (Products, Orders, Inventory, Customers, Analytics)
 - **4 Platform Integrations** (Shopify, WooCommerce, Stripe, MercadoLibre)
+- **8 AI Client Compatible**: Claude, ChatGPT (Open WebUI), Gemini, Cursor, Windsurf, Continue.dev, Cline
 - **3 Real-time Resources** (Store Info, Recent Orders, Inventory Alerts)
 - **3 Pre-built Prompts** (Daily Report, Order Summary, Inventory Check)
 - **Enterprise Features**: Smart caching, rate limiting, automatic retries, structured logging
