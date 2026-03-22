@@ -170,7 +170,7 @@ export async function createServer(): Promise<McpServer> {
         '=== CommerceHub - Estado de Licencia ===',
         '',
         `Plan: ${status.planInfo.displayName} (${status.planInfo.price})`,
-        `License Key: ${status.licenseKey ?? 'No configurada (plan Free)'}`,
+        `Licencia: ${status.licenseActive ? 'Activa' : 'No configurada (plan Free)'}`,
         `Expira: ${status.expiresAt ?? 'N/A'}`,
         `Requests hoy: ${status.requestsToday} / ${status.requestsLimit === Infinity ? 'ilimitados' : status.requestsLimit}`,
         `Proveedores: ${providers.size} / ${status.planInfo.maxProviders === Infinity ? 'ilimitados' : status.planInfo.maxProviders}`,
@@ -207,12 +207,16 @@ export async function createServer(): Promise<McpServer> {
       license_key: z.string().describe('License key en formato CHUB-XXXX-XXXX-XXXX-XXXX'),
     },
     async (params) => {
-      const result = license.activate(params.license_key);
+      const result = await license.activate(params.license_key);
       const lines = [
         result.valid ? 'Licencia activada exitosamente!' : 'Error al activar licencia',
         '',
         result.message,
       ];
+
+      if (result.warning) {
+        lines.push('', result.warning);
+      }
 
       if (result.valid) {
         lines.push(
