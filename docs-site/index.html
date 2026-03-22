@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CommerceHub MCP - E-commerce Operations Platform</title>
+  <meta name="description" content="Servidor MCP que conecta agentes de IA con Shopify, WooCommerce, Stripe y MercadoLibre. 37 herramientas para gestionar tu e-commerce con IA.">
+  <meta property="og:title" content="CommerceHub MCP - E-commerce con IA">
+  <meta property="og:description" content="37 herramientas MCP para gestionar productos, ordenes, inventario, clientes y analytics de multiples plataformas.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #1a1a28;
+      --border: #1e1e2e;
+      --text: #e4e4ef;
+      --text-muted: #8888a0;
+      --accent: #7c5cfc;
+      --accent-light: #9d85fd;
+      --accent-glow: rgba(124, 92, 252, 0.15);
+      --green: #34d399;
+      --blue: #60a5fa;
+      --orange: #fb923c;
+      --pink: #f472b6;
+      --red: #f87171;
+      --yellow: #facc15;
+      --gradient: linear-gradient(135deg, #7c5cfc 0%, #60a5fa 50%, #34d399 100%);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    nav .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    nav .logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+    nav .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--text); }
+    .gh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .gh-btn:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--accent-glow);
+      border: 1px solid rgba(124, 92, 252, 0.3);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent-light);
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+
+    /* ===== STATS ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: -2rem auto 0;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-card .label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    /* ===== SECTIONS ===== */
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== ARCHITECTURE ===== */
+    .arch-diagram {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .arch-diagram pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent-light);
+      line-height: 1.8;
+      display: inline-block;
+      text-align: left;
+    }
+
+    /* ===== PROVIDERS ===== */
+    .providers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .provider-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .provider-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .provider-card .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .provider-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .provider-card p { font-size: 0.85rem; color: var(--text-muted); }
+    .provider-card .check-list { list-style: none; text-align: left; margin-top: 1rem; }
+    .provider-card .check-list li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0.25rem 0;
+    }
+    .provider-card .check-list li::before {
+      content: '\2713';
+      color: var(--green);
+      margin-right: 0.5rem;
+      font-weight: 700;
+    }
+
+    /* ===== TOOLS ===== */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .tool-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+    .tool-category:hover { border-color: var(--accent); }
+    .tool-category .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .tool-category .cat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .tool-category .cat-header h3 { font-size: 1.1rem; font-weight: 700; }
+    .tool-category .cat-header .count {
+      margin-left: auto;
+      font-size: 0.75rem;
+      background: var(--accent-glow);
+      color: var(--accent-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .tool-list { list-style: none; }
+    .tool-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .tool-list li:last-child { border-bottom: none; }
+    .tool-list code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(124, 92, 252, 0.1);
+      color: var(--accent-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .tool-list .desc { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ===== INSTALL ===== */
+    .install-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .step .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .step p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .code-block {
+      background: #0d0d14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green);
+      line-height: 1.8;
+    }
+    .code-block .comment { color: var(--text-muted); }
+    .code-block .string { color: var(--orange); }
+    .code-block .key { color: var(--blue); }
+
+    /* ===== USE CASES ===== */
+    .usecases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .usecase {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .usecase .bubble {
+      background: rgba(124, 92, 252, 0.08);
+      border: 1px solid rgba(124, 92, 252, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--accent-light);
+      margin-bottom: 1rem;
+    }
+    .usecase .answer {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .usecase .answer strong { color: var(--text); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .providers-grid { grid-template-columns: repeat(2, 1fr); }
+      .tools-grid { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stats { grid-template-columns: 1fr; }
+      .providers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">CommerceHub MCP</div>
+    <ul class="nav-links">
+      <li><a href="#architecture">Arquitectura</a></li>
+      <li><a href="#providers">Proveedores</a></li>
+      <li><a href="#tools">Herramientas</a></li>
+      <li><a href="#install">Instalacion</a></li>
+      <li><a href="#usecases">Ejemplos</a></li>
+    </ul>
+    <a href="https://github.com/spirit122/commercehub-mcp" class="gh-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">v1.0.0 &mdash; Open Source &mdash; MIT License</div>
+  <h1>Gestiona tu e-commerce <span>con IA</span></h1>
+  <p>Servidor MCP que conecta agentes de IA con Shopify, WooCommerce, Stripe y MercadoLibre. 37 herramientas para productos, ordenes, inventario, clientes y analytics.</p>
+  <div class="hero-buttons">
+    <a href="#install" class="btn-primary">Comenzar</a>
+    <a href="https://github.com/spirit122/commercehub-mcp" class="btn-secondary" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      Ver en GitHub
+    </a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="number">37</div>
+    <div class="label">Herramientas MCP</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">4</div>
+    <div class="label">Plataformas</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">50</div>
+    <div class="label">Tests pasando</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">22K+</div>
+    <div class="label">Lineas de codigo</div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="section-header">
+    <h2>Arquitectura</h2>
+    <p>Patron adaptador con proveedores intercambiables. Cache inteligente, rate limiting y reintentos automaticos.</p>
+  </div>
+  <div class="arch-diagram">
+    <pre>
+          +--------------------+
+          |    Claude / AI     |
+          |      Agent         |
+          +---------+----------+
+                    |
+               MCP Protocol
+               (stdio/SSE)
+                    |
+          +---------+----------+
+          |    CommerceHub     |
+          |    MCP Server      |
+          |                    |
+          |  37 Tools          |
+          |  3 Resources       |
+          |  3 Prompts         |
+          +---------+----------+
+                    |
+     +--------------+--------------+--------------+
+     |              |              |              |
++----+-----+  +----+-----+  +----+-----+  +-----+----+
+|  Shopify |  |   Woo    |  |  Stripe  |  | Mercado  |
+|  Admin   |  | Commerce |  |   API    |  |  Libre   |
+|  API     |  | REST v3  |  |          |  |   API    |
++----------+  +----------+  +----------+  +----------+
+    </pre>
+  </div>
+</section>
+
+<!-- PROVIDERS -->
+<section id="providers">
+  <div class="section-header">
+    <h2>Plataformas soportadas</h2>
+    <p>Conecta todas tus tiendas simultaneamente. Cada proveedor implementa el mismo contrato unificado.</p>
+  </div>
+  <div class="providers-grid">
+    <div class="provider-card">
+      <div class="icon">&#x1F6D2;</div>
+      <h3>Shopify</h3>
+      <p>Admin API REST 2024-01</p>
+      <ul class="check-list">
+        <li>Productos y variantes</li>
+        <li>Ordenes y fulfillment</li>
+        <li>Inventory levels</li>
+        <li>Clientes y segmentos</li>
+        <li>Analytics calculados</li>
+      </ul>
+    </div>
+    <div class="provider-card">
+      <div class="icon">&#x1F310;</div>
+      <h3>WooCommerce</h3>
+      <p>REST API v3</p>
+      <ul class="check-list">
+        <li>Productos con stock directo</li>
+        <li>Ordenes y notas</li>
+        <li>Inventario integrado</li>
+        <li>Clientes WordPress</li>
+        <li>Reports nativos</li>
+      </ul>
+    </div>
+    <div class="provider-card">
+      <div class="icon">&#x1F4B3;</div>
+      <h3>Stripe</h3>
+      <p>Stripe API + Subscriptions</p>
+      <ul class="check-list">
+        <li>Products y Prices</li>
+        <li>Payment Intents</li>
+        <li>Suscripciones recurrentes</li>
+        <li>Customers</li>
+        <li>Balance transactions</li>
+      </ul>
+    </div>
+    <div class="provider-card">
+      <div class="icon">&#x1F91D;</div>
+      <h3>MercadoLibre</h3>
+      <p>API + OAuth2 auto-refresh</p>
+      <ul class="check-list">
+        <li>Items y publicaciones</li>
+        <li>Ordenes de venta</li>
+        <li>Stock disponible</li>
+        <li>Compradores</li>
+        <li>Soporte multi-pais</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-header">
+    <h2>37 herramientas MCP</h2>
+    <p>Cada herramienta esta disenada para usarse desde lenguaje natural. Solo dile a tu agente de IA lo que necesitas.</p>
+  </div>
+  <div class="tools-grid">
+    <!-- Products -->
+    <div class="tool-category">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:rgba(124,92,252,0.15);">&#x1F4E6;</div>
+        <h3>Productos</h3>
+        <span class="count">9 tools</span>
+      </div>
+      <ul class="tool-list">
+        <li><code>products_list</code><span class="desc">Listar con filtros avanzados</span></li>
+        <li><code>products_get</code><span class="desc">Detalle completo</span></li>
+        <li><code>products_create</code><span class="desc">Crear con variantes</span></li>
+        <li><code>products_update</code><span class="desc">Actualizar campos</span></li>
+        <li><code>products_delete</code><span class="desc">Eliminar/archivar</span></li>
+        <li><code>products_search</code><span class="desc">Busqueda full-text</span></li>
+        <li><code>products_bulk_price</code><span class="desc">Precios masivos</span></li>
+        <li><code>products_sync</code><span class="desc">Sincronizar plataformas</span></li>
+        <li><code>products_seo_audit</code><span class="desc">Auditoria SEO</span></li>
+      </ul>
+    </div>
+    <!-- Orders -->
+    <div class="tool-category">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:rgba(96,165,250,0.15);">&#x1F4CB;</div>
+        <h3>Ordenes</h3>
+        <span class="count">8 tools</span>
+      </div>
+      <ul class="tool-list">
+        <li><code>orders_list</code><span class="desc">Listar con filtros</span></li>
+        <li><code>orders_get</code><span class="desc">Detalle con timeline</span></li>
+        <li><code>orders_create</code><span class="desc">Crear orden manual</span></li>
+        <li><code>orders_fulfill</code><span class="desc">Marcar enviada + tracking</span></li>
+        <li><code>orders_cancel</code><span class="desc">Cancelar con razon</span></li>
+        <li><code>orders_refund</code><span class="desc">Reembolso parcial/total</span></li>
+        <li><code>orders_add_note</code><span class="desc">Notas internas</span></li>
+        <li><code>orders_timeline</code><span class="desc">Historial de eventos</span></li>
+      </ul>
+    </div>
+    <!-- Inventory -->
+    <div class="tool-category">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:rgba(52,211,153,0.15);">&#x1F4CA;</div>
+        <h3>Inventario</h3>
+        <span class="count">6 tools</span>
+      </div>
+      <ul class="tool-list">
+        <li><code>inventory_get</code><span class="desc">Stock por SKU</span></li>
+        <li><code>inventory_update</code><span class="desc">Actualizar cantidad</span></li>
+        <li><code>inventory_bulk</code><span class="desc">Actualizacion masiva</span></li>
+        <li><code>inventory_low_stock</code><span class="desc">Reporte stock bajo</span></li>
+        <li><code>inventory_forecast</code><span class="desc">Prediccion agotamiento</span></li>
+        <li><code>inventory_history</code><span class="desc">Historial movimientos</span></li>
+      </ul>
+    </div>
+    <!-- Customers -->
+    <div class="tool-category">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:rgba(244,114,182,0.15);">&#x1F465;</div>
+        <h3>Clientes</h3>
+        <span class="count">6 tools</span>
+      </div>
+      <ul class="tool-list">
+        <li><code>customers_list</code><span class="desc">Listar segmentados</span></li>
+        <li><code>customers_get</code><span class="desc">Perfil completo</span></li>
+        <li><code>customers_search</code><span class="desc">Buscar por nombre/email</span></li>
+        <li><code>customers_orders</code><span class="desc">Historial de compras</span></li>
+        <li><code>customers_segments</code><span class="desc">Segmentacion automatica</span></li>
+        <li><code>customers_lifetime_value</code><span class="desc">Valor de vida (CLV)</span></li>
+      </ul>
+    </div>
+    <!-- Analytics -->
+    <div class="tool-category" style="grid-column: span 2;">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:rgba(251,146,60,0.15);">&#x1F4C8;</div>
+        <h3>Analytics</h3>
+        <span class="count">8 tools</span>
+      </div>
+      <ul class="tool-list" style="display:grid; grid-template-columns: 1fr 1fr; gap: 0 2rem;">
+        <li><code>analytics_revenue</code><span class="desc">Ingresos por periodo</span></li>
+        <li><code>analytics_top_products</code><span class="desc">Mas vendidos</span></li>
+        <li><code>analytics_by_channel</code><span class="desc">Ventas por plataforma</span></li>
+        <li><code>analytics_conversion</code><span class="desc">Embudo de conversion</span></li>
+        <li><code>analytics_avg_order</code><span class="desc">Ticket promedio</span></li>
+        <li><code>analytics_forecast</code><span class="desc">Proyeccion 30/60/90 dias</span></li>
+        <li><code>analytics_refunds</code><span class="desc">Analisis de reembolsos</span></li>
+        <li><code>analytics_dashboard</code><span class="desc">Resumen ejecutivo completo</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="section-header">
+    <h2>Instalacion</h2>
+    <p>Listo en 3 pasos. Compatible con Claude Desktop, Claude Code, Cursor y cualquier cliente MCP.</p>
+  </div>
+  <div class="install-steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Clonar e instalar</h3>
+      <p>Clona el repositorio e instala las dependencias.</p>
+      <div class="code-block"><code><span class="comment"># Clonar</span>
+git clone https://github.com/spirit122/commercehub-mcp.git
+cd commercehub-mcp
+
+<span class="comment"># Instalar y compilar</span>
+npm install
+npm run build</code></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Configurar credenciales</h3>
+      <p>Copia el archivo de ejemplo y agrega tus API keys.</p>
+      <div class="code-block"><code>cp .env.example .env
+
+<span class="comment"># Edita .env con tus credenciales</span>
+<span class="key">SHOPIFY_STORE_URL</span>=<span class="string">https://tu-tienda.myshopify.com</span>
+<span class="key">SHOPIFY_ACCESS_TOKEN</span>=<span class="string">shpat_xxxxx</span>
+<span class="key">STRIPE_SECRET_KEY</span>=<span class="string">sk_live_xxxxx</span></code></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Conectar con Claude</h3>
+      <p>Agrega a tu configuracion de Claude Desktop o Code.</p>
+      <div class="code-block"><code><span class="comment">// claude_desktop_config.json</span>
+{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"commercehub"</span>: {
+      <span class="key">"command"</span>: <span class="string">"node"</span>,
+      <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+    }
+  }
+}</code></div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases">
+  <div class="section-header">
+    <h2>Ejemplos de uso</h2>
+    <p>Habla con tu agente de IA en lenguaje natural. CommerceHub ejecuta las operaciones por ti.</p>
+  </div>
+  <div class="usecases">
+    <div class="usecase">
+      <div class="bubble">"Muestrame las ventas de hoy comparadas con ayer"</div>
+      <div class="answer">Usa <strong>analytics_revenue</strong> con period=today y compare_previous=true. Retorna ingresos, ordenes, ticket promedio y % de cambio.</div>
+    </div>
+    <div class="usecase">
+      <div class="bubble">"Que productos necesito reabastecer?"</div>
+      <div class="answer">Usa <strong>inventory_low_stock</strong> + <strong>inventory_forecast</strong> para detectar productos criticos y predecir cuando se agotan.</div>
+    </div>
+    <div class="usecase">
+      <div class="bubble">"Sincroniza mi catalogo de Shopify a WooCommerce"</div>
+      <div class="answer">Usa <strong>products_sync</strong> con dry_run=true primero. Muestra los cambios y luego aplica con dry_run=false.</div>
+    </div>
+    <div class="usecase">
+      <div class="bubble">"Procesa el reembolso de la orden #1234"</div>
+      <div class="answer">Usa <strong>orders_refund</strong> con el order_id. Soporta reembolso total, parcial, y restock automatico.</div>
+    </div>
+    <div class="usecase">
+      <div class="bubble">"Quienes son mis clientes VIP?"</div>
+      <div class="answer">Usa <strong>customers_segments</strong> para ver la segmentacion automatica: VIP, Regular, En Riesgo, Perdido, Nuevo.</div>
+    </div>
+    <div class="usecase">
+      <div class="bubble">"Dame el reporte ejecutivo del dia"</div>
+      <div class="answer">Usa el prompt <strong>daily-report</strong> que combina revenue, ordenes, top productos, alertas de stock y recomendaciones.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section>
+  <div class="section-header">
+    <h2>Stack tecnologico</h2>
+    <p>Construido con las mejores herramientas para rendimiento y mantenibilidad.</p>
+  </div>
+  <div class="tools-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x1F4DD;</div>
+      <h3 style="font-size:1rem;">TypeScript 5.7</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Strict mode, tipado completo</p>
+    </div>
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x1F50C;</div>
+      <h3 style="font-size:1rem;">MCP SDK</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Model Context Protocol oficial</p>
+    </div>
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x2705;</div>
+      <h3 style="font-size:1rem;">Zod</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Validacion de schemas</p>
+    </div>
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x26A1;</div>
+      <h3 style="font-size:1rem;">undici</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">HTTP de alto rendimiento</p>
+    </div>
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x1F9EA;</div>
+      <h3 style="font-size:1rem;">Vitest</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">50 tests, 5 suites</p>
+    </div>
+    <div class="tool-category" style="text-align:center; padding:1.5rem;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">&#x1F680;</div>
+      <h3 style="font-size:1rem;">tsup</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted);">Build en 80ms con esbuild</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p style="margin-bottom:1rem;">
+    <strong style="color:var(--text);">CommerceHub MCP</strong> &mdash; E-commerce Operations Platform
+  </p>
+  <p>
+    <a href="https://github.com/spirit122/commercehub-mcp" target="_blank">GitHub</a> &middot;
+    <a href="https://github.com/spirit122/commercehub-mcp/blob/main/docs/API-REFERENCE.md" target="_blank">API Reference</a> &middot;
+    <a href="https://github.com/spirit122/commercehub-mcp/blob/main/docs/SETUP.md" target="_blank">Guia de instalacion</a> &middot;
+    <a href="https://github.com/spirit122/commercehub-mcp/blob/main/LICENSE" target="_blank">MIT License</a>
+  </p>
+  <p style="margin-top:1.5rem; color:var(--text-muted);">Built with TypeScript + Model Context Protocol</p>
+</footer>
+
+</body>
+</html>
