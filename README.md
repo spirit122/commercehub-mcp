@@ -39,6 +39,21 @@ En lugar de alternar entre dashboards de Shopify, WooCommerce, Stripe y MercadoL
 >
 > *"Procesa el reembolso de la orden #1234 porque el cliente recibio el producto danado"*
 
+## Planes y precios
+
+| | Free | Pro | Business |
+|---|:---:|:---:|:---:|
+| **Precio** | $0 | **$49/mes** | **$199/mes** |
+| **Herramientas** | 15 (lectura) | 37 (todas) | 37 + futuras |
+| **Plataformas** | 1 | 5 | Ilimitadas |
+| **Requests/dia** | 100 | 10,000 | Ilimitados |
+| **Productos** | Listar, ver, buscar | + Crear, editar, sync | Todo |
+| **Ordenes** | Listar, ver | + Crear, fulfill, refund | Todo |
+| **Analytics** | Revenue basico | + Forecast, conversion | Todo |
+| **Soporte** | Community | Email | Prioritario |
+
+[Comprar Pro](https://commercehub.gumroad.com) | [Comprar Business](https://commercehub.gumroad.com)
+
 ## Plataformas soportadas
 
 | Plataforma | Productos | Ordenes | Inventario | Clientes | Analytics |
