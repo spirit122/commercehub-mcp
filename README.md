@@ -52,7 +52,7 @@ En lugar de alternar entre dashboards de Shopify, WooCommerce, Stripe y MercadoL
 | **Analytics** | Revenue basico | + Forecast, conversion | Todo |
 | **Soporte** | Community | Email | Prioritario |
 
-[Comprar Pro](https://commercehub.gumroad.com) | [Comprar Business](https://commercehub.gumroad.com)
+[Comprar Pro - $45.000 CLP/mes](https://spirit122.lemonsqueezy.com/checkout/buy/71006653-b5bc-4c7e-a91e-4e120397b980) | [Comprar Business - $185.000 CLP/mes](https://spirit122.lemonsqueezy.com/checkout/buy/6a8a34e1-a4d5-4d56-aa73-6e4a7fa73764) | [Pro Lifetime - $275.000 CLP](https://spirit122.lemonsqueezy.com/checkout/buy/4a46887b-d7d8-40cf-ad61-a5bc41e1a524)
 
 ## Plataformas soportadas
 

@@ -598,6 +598,14 @@ export class LicenseManager {
     const requiredPlan = getMinimumPlan(toolName);
     const requiredInfo = PLANS[requiredPlan];
 
+    const checkoutUrls: Record<string, string> = {
+      pro: 'https://spirit122.lemonsqueezy.com/checkout/buy/71006653-b5bc-4c7e-a91e-4e120397b980',
+      business: 'https://spirit122.lemonsqueezy.com/checkout/buy/6a8a34e1-a4d5-4d56-aa73-6e4a7fa73764',
+      lifetime: 'https://spirit122.lemonsqueezy.com/checkout/buy/4a46887b-d7d8-40cf-ad61-a5bc41e1a524',
+    };
+
+    const buyUrl = checkoutUrls[requiredPlan] ?? checkoutUrls.pro;
+
     return {
       allowed: false,
       message: [
@@ -606,10 +614,12 @@ export class LicenseManager {
         `Tu plan actual: ${PLANS[plan].displayName} (${PLANS[plan].price})`,
         '',
         'Para hacer upgrade:',
-        '  1. Visita: https://commercehub.lemonsqueezy.com',
-        '  2. Compra el plan ' + requiredInfo.displayName,
+        `  1. Compra aqui: ${buyUrl}`,
+        '  2. Recibiras tu license key por email',
         '  3. Agrega tu license key en la variable de entorno:',
         '     COMMERCEHUB_LICENSE_KEY=tu-license-key',
+        '',
+        `  O pago unico de por vida: ${checkoutUrls.lifetime}`,
         '',
         `Herramientas incluidas en ${requiredInfo.displayName}:`,
         ...requiredInfo.features.map((f) => `  - ${f}`),
