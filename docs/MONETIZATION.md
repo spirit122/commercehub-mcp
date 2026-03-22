@@ -1,84 +1,102 @@
 # Estrategia de Monetizacion - CommerceHub MCP
 
-## Modelo de negocio: SaaS con planes escalables
+## Modelo de negocio: Freemium + SaaS
 
-### Planes propuestos
+### Planes activos (LemonSqueezy)
 
-| Plan | Precio | Incluye |
-|---|---|---|
-| **Starter** | $29/mes | 1 tienda, 1 plataforma, 5K requests/mes |
-| **Growth** | $79/mes | 5 tiendas, 2 plataformas, 50K requests/mes, sincronizacion |
-| **Business** | $199/mes | Tiendas ilimitadas, todas las plataformas, requests ilimitados, analytics avanzados |
-| **Enterprise** | Personalizado | Todo Business + soporte dedicado, SLA, integraciones custom |
+| Plan | Precio | Incluye | Link |
+|---|---|---|---|
+| **Free** | $0 | 15 tools (lectura), 1 plataforma, 100 req/dia | Incluido |
+| **Pro** | $45.000 CLP/mes | 37 tools, 5 plataformas, 10K req/dia, sync, forecast | [Comprar](https://spirit122.lemonsqueezy.com/checkout/buy/71006653-b5bc-4c7e-a91e-4e120397b980) |
+| **Business** | $185.000 CLP/mes | Todo ilimitado, soporte prioritario | [Comprar](https://spirit122.lemonsqueezy.com/checkout/buy/6a8a34e1-a4d5-4d56-aa73-6e4a7fa73764) |
+| **Pro Lifetime** | $275.000 CLP (unico) | Todo lo de Pro, sin pagos recurrentes | [Comprar](https://spirit122.lemonsqueezy.com/checkout/buy/4a46887b-d7d8-40cf-ad61-a5bc41e1a524) |
+
+### Comparacion detallada
+
+| Caracteristica | Free | Pro | Business |
+|---|:---:|:---:|:---:|
+| Herramientas | 15 (lectura) | 37 (todas) | 37 + futuras |
+| Plataformas | 1 | 5 | Ilimitadas |
+| Requests/dia | 100 | 10,000 | Ilimitados |
+| Productos: listar, ver, buscar | Si | Si | Si |
+| Productos: crear, editar, eliminar | No | Si | Si |
+| Productos: sync entre plataformas | No | Si | Si |
+| Productos: auditoria SEO | No | Si | Si |
+| Ordenes: listar, ver, timeline | Si | Si | Si |
+| Ordenes: crear, fulfill, cancel, refund | No | Si | Si |
+| Inventario: ver, stock bajo | Si | Si | Si |
+| Inventario: editar, masivo, forecast | No | Si | Si |
+| Clientes: listar, ver, buscar | Si | Si | Si |
+| Clientes: segmentos, CLV, historial | No | Si | Si |
+| Analytics: revenue, top, AOV, dashboard | Si | Si | Si |
+| Analytics: forecast, conversion, canales | No | Si | Si |
+| Soporte | Community | Email | Prioritario |
+
+### Flujo de conversion (freemium)
+
+```
+Instala gratis (npx commercehub-mcp)
+         |
+    Usa 15 tools gratis
+         |
+    Intenta crear/editar
+         |
+    Ve mensaje: "Requiere Pro - Compra aqui: [link]"
+         |
+    Compra en LemonSqueezy
+         |
+    Recibe license key por email
+         |
+    Agrega COMMERCEHUB_LICENSE_KEY=key
+         |
+    37 tools desbloqueadas
+```
+
+### Seguridad del sistema de licencias
+
+- Validacion online contra API de LemonSqueezy
+- Cache encriptado AES-256-GCM vinculado a la maquina
+- Machine fingerprinting (hostname + user + platform + CPU)
+- Anti-tampering con hash de integridad
+- Grace period de 7 dias sin internet
+- License key nunca se guarda en texto plano
 
 ### Metricas clave del mercado
 
-- **TAM (Total Addressable Market)**: 26M tiendas e-commerce activas
-- **SAM (Serviceable Addressable Market)**: ~5M tiendas que usan multiples plataformas
-- **SOM (Serviceable Obtainable Market)**: 0.01% = 2,600 clientes potenciales en Y1
+- **TAM**: 26M tiendas e-commerce activas globalmente
+- **SAM**: ~5M tiendas que usan multiples plataformas
+- **SOM**: 0.01% = 2,600 clientes potenciales en Y1
 
-### Proyeccion de revenue (conservadora)
+### Proyeccion de revenue (CLP)
 
 | Ano | Clientes | MRR | ARR |
 |---|---|---|---|
-| Y1 | 500 | $25K | $300K |
-| Y2 | 2,000 | $100K | $1.2M |
-| Y3 | 5,000 | $300K | $3.6M |
+| Y1 | 100 Pro + 10 Business | $6.35M CLP | $76.2M CLP |
+| Y2 | 400 Pro + 40 Business | $25.4M CLP | $304.8M CLP |
+| Y3 | 1,000 Pro + 100 Business | $63.5M CLP | $762M CLP |
 
 ### Canales de distribucion
 
-1. **MCP Marketplace** - Listado en el marketplace oficial de MCP
-2. **npm** - Paquete publico con version free/premium
-3. **Shopify App Store** - Version standalone
-4. **GitHub** - Open source core, premium addons
-5. **Integraciones directas** - Partnerships con plataformas de IA
+1. **npm** - `npm i commercehub-mcp` (activo)
+2. **GitHub** - github.com/spirit122/commercehub-mcp (activo)
+3. **LemonSqueezy** - spirit122.lemonsqueezy.com (activo)
+4. **MCP Marketplace** - Pendiente submit
+5. **Smithery.ai** - Pendiente submit
+6. **Glama.ai** - Pendiente submit
+7. **LinkedIn** - Pendiente post de lanzamiento
+8. **Product Hunt** - Pendiente lanzamiento
 
-### Diferenciadores competitivos
-
-1. **Multi-plataforma real** - No solo Shopify, sino 4+ plataformas
-2. **Sincronizacion entre tiendas** - Mantener catalogo unificado
-3. **Analytics cross-platform** - Metricas comparativas entre canales
-4. **Segmentacion con IA** - Customer segments inteligentes
-5. **Predicciones** - Forecast de ventas e inventario
-6. **Espanol nativo** - Mercado LATAM desatendido
-
-### Costos operativos estimados
+### Costos operativos
 
 | Item | Costo mensual |
 |---|---|
-| Infraestructura (hosting/CDN) | $200-500 |
-| APIs third-party | $0 (usa credenciales del cliente) |
-| Marketing | $500-2,000 |
-| Soporte | $500-1,000 (Y1 founder-led) |
-| **Total** | **$1,200-3,500/mes** |
+| Infraestructura | $0 (ejecuta en maquina del cliente) |
+| LemonSqueezy comision | 5% + $0.50 por transaccion |
+| npm hosting | $0 (paquete publico) |
+| GitHub | $0 (repositorio publico) |
+| Marketing | Variable |
+| **Total fijo** | **~$0** |
 
-### Margen bruto estimado: 85-92%
+### Margen bruto: ~95%
 
-El producto es software puro que ejecuta en la infra del cliente (MCP server local). Los unicos costos directos son el development y soporte.
-
-## Estrategia de lanzamiento
-
-### Fase 1: Open Source (Mes 1-3)
-- Publicar en GitHub con licencia MIT
-- Publicar en npm
-- Crear contenido tecnico (blog posts, videos)
-- Recoger feedback de early adopters
-
-### Fase 2: Premium Features (Mes 4-6)
-- Lanzar version premium con:
-  - Sincronizacion avanzada
-  - Analytics cross-platform
-  - Soporte prioritario
-- Integrar sistema de licencias
-
-### Fase 3: Marketplace (Mes 7-12)
-- Shopify App Store
-- MCP Marketplace oficial
-- Partnerships con agencias de e-commerce
-- Programa de afiliados
-
-### Fase 4: Enterprise (Mes 12+)
-- Soluciones custom
-- SLA garantizado
-- Integraciones dedicadas
-- White-label options
+El producto ejecuta en la infraestructura del cliente (MCP server local). No hay costos de servidor. Solo la comision de LemonSqueezy (5%).

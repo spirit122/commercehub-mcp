@@ -141,7 +141,7 @@ const buildPlans = (): {
     pro: Object.freeze({
       name: 'pro',
       displayName: 'Pro',
-      price: '$49/mes',
+      price: '$45.000 CLP/mes',
       maxProviders: 5,
       maxRequestsPerDay: 10000,
       tools: PRO_TOOLS,
@@ -158,7 +158,7 @@ const buildPlans = (): {
     business: Object.freeze({
       name: 'business',
       displayName: 'Business',
-      price: '$199/mes',
+      price: '$185.000 CLP/mes',
       maxProviders: Infinity,
       maxRequestsPerDay: Infinity,
       tools: BUSINESS_TOOLS,

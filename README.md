@@ -43,7 +43,7 @@ En lugar de alternar entre dashboards de Shopify, WooCommerce, Stripe y MercadoL
 
 | | Free | Pro | Business |
 |---|:---:|:---:|:---:|
-| **Precio** | $0 | **$49/mes** | **$199/mes** |
+| **Precio** | $0 | **$45.000 CLP/mes** | **$185.000 CLP/mes** |
 | **Herramientas** | 15 (lectura) | 37 (todas) | 37 + futuras |
 | **Plataformas** | 1 | 5 | Ilimitadas |
 | **Requests/dia** | 100 | 10,000 | Ilimitados |

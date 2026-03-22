@@ -1,6 +1,6 @@
 {
   "name": "commercehub-mcp",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "MCP Server para operaciones de e-commerce multi-plataforma. Conecta agentes de IA con Shopify, WooCommerce, Stripe y MercadoLibre.",
   "author": "CommerceHub",
   "license": "MIT",
