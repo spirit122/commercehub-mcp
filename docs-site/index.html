@@ -735,7 +735,7 @@
 <section id="install">
   <div class="section-header">
     <h2>Instalacion</h2>
-    <p>Listo en 3 pasos. Compatible con Claude Desktop, Claude Code, Cursor y cualquier cliente MCP.</p>
+    <p>Listo en 3 pasos. Compatible con Claude, ChatGPT, Gemini, Cursor, Windsurf, Continue.dev y Cline.</p>
   </div>
   <div class="install-steps">
     <div class="step">
@@ -761,12 +761,23 @@ npm run build</code></div>
 <span class="key">SHOPIFY_ACCESS_TOKEN</span>=<span class="string">shpat_xxxxx</span>
 <span class="key">STRIPE_SECRET_KEY</span>=<span class="string">sk_live_xxxxx</span></code></div>
     </div>
-    <div class="step">
+    <div class="step" style="grid-column: span 1;">
       <div class="step-num">3</div>
-      <h3>Conectar con Claude</h3>
-      <p>Agrega a tu configuracion de Claude Desktop o Code.</p>
-      <div class="code-block"><code><span class="comment">// claude_desktop_config.json</span>
-{
+      <h3>Conectar con tu IA</h3>
+      <p>Selecciona tu cliente y agrega la configuracion.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+        <button class="tab-btn active" onclick="showTab('claude-desktop')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--accent); color:white; border:1px solid var(--accent); border-radius:6px; cursor:pointer; font-family:inherit;">Claude Desktop</button>
+        <button class="tab-btn" onclick="showTab('claude-code')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Claude Code</button>
+        <button class="tab-btn" onclick="showTab('chatgpt')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">ChatGPT</button>
+        <button class="tab-btn" onclick="showTab('gemini')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Gemini</button>
+        <button class="tab-btn" onclick="showTab('cursor')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Cursor</button>
+        <button class="tab-btn" onclick="showTab('windsurf')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Windsurf</button>
+        <button class="tab-btn" onclick="showTab('continue')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Continue.dev</button>
+        <button class="tab-btn" onclick="showTab('cline')" style="padding:0.3rem 0.7rem; font-size:0.7rem; background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit;">Cline</button>
+      </div>
+      <div id="tab-claude-desktop" class="tab-content">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Archivo: <code style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent-light);">claude_desktop_config.json</code></p>
+        <div class="code-block"><code>{
   <span class="key">"mcpServers"</span>: {
     <span class="key">"commercehub"</span>: {
       <span class="key">"command"</span>: <span class="string">"node"</span>,
@@ -774,9 +785,91 @@ npm run build</code></div>
     }
   }
 }</code></div>
+      </div>
+      <div id="tab-claude-code" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Ejecuta en terminal:</p>
+        <div class="code-block"><code>claude mcp add commercehub \
+  node /ruta/a/commercehub-mcp/dist/index.js</code></div>
+      </div>
+      <div id="tab-chatgpt" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Open WebUI > Settings > Tools > MCP</p>
+        <div class="code-block"><code>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"commercehub"</span>: {
+      <span class="key">"command"</span>: <span class="string">"node"</span>,
+      <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+    }
+  }
+}</code></div>
+      </div>
+      <div id="tab-gemini" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Google AI Studio > Tools</p>
+        <div class="code-block"><code>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"commercehub"</span>: {
+      <span class="key">"command"</span>: <span class="string">"node"</span>,
+      <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+    }
+  }
+}</code></div>
+      </div>
+      <div id="tab-cursor" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Archivo: <code style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent-light);">.cursor/mcp.json</code></p>
+        <div class="code-block"><code>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"commercehub"</span>: {
+      <span class="key">"command"</span>: <span class="string">"node"</span>,
+      <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+    }
+  }
+}</code></div>
+      </div>
+      <div id="tab-windsurf" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Archivo: <code style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent-light);">~/.codeium/windsurf/mcp_config.json</code></p>
+        <div class="code-block"><code>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"commercehub"</span>: {
+      <span class="key">"command"</span>: <span class="string">"node"</span>,
+      <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+    }
+  }
+}</code></div>
+      </div>
+      <div id="tab-continue" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Archivo: <code style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent-light);">~/.continue/config.yaml</code></p>
+        <div class="code-block"><code><span class="key">mcpServers</span>:
+  - <span class="key">name</span>: <span class="string">commercehub</span>
+    <span class="key">command</span>: <span class="string">node</span>
+    <span class="key">args</span>:
+      - <span class="string">dist/index.js</span></code></div>
+      </div>
+      <div id="tab-cline" class="tab-content" style="display:none;">
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">VS Code > Cline: MCP Settings</p>
+        <div class="code-block"><code>{
+  <span class="key">"commercehub"</span>: {
+    <span class="key">"command"</span>: <span class="string">"node"</span>,
+    <span class="key">"args"</span>: [<span class="string">"dist/index.js"</span>]
+  }
+}</code></div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.style.background = 'var(--bg-card)';
+    btn.style.color = 'var(--text-muted)';
+    btn.style.borderColor = 'var(--border)';
+  });
+  document.getElementById('tab-' + id).style.display = 'block';
+  event.target.style.background = 'var(--accent)';
+  event.target.style.color = 'white';
+  event.target.style.borderColor = 'var(--accent)';
+}
+</script>
 
 <!-- USE CASES -->
 <section id="usecases">
