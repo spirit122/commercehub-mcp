@@ -444,6 +444,7 @@
   <div class="nav-inner">
     <div class="logo">CommerceHub MCP</div>
     <ul class="nav-links">
+      <li><a href="#ai-clients">Clientes IA</a></li>
       <li><a href="#architecture">Arquitectura</a></li>
       <li><a href="#providers">Proveedores</a></li>
       <li><a href="#tools">Herramientas</a></li>
@@ -461,7 +462,7 @@
 <section class="hero">
   <div class="badge">v1.0.0 &mdash; Open Source &mdash; MIT License</div>
   <h1>Gestiona tu e-commerce <span>con IA</span></h1>
-  <p>Servidor MCP que conecta agentes de IA con Shopify, WooCommerce, Stripe y MercadoLibre. 37 herramientas para productos, ordenes, inventario, clientes y analytics.</p>
+  <p>Servidor MCP que conecta agentes de IA con Shopify, WooCommerce, Stripe y MercadoLibre. 37 herramientas para productos, ordenes, inventario, clientes y analytics. Compatible con Claude, ChatGPT, Gemini, Cursor, Windsurf y mas.</p>
   <div class="hero-buttons">
     <a href="#install" class="btn-primary">Comenzar</a>
     <a href="https://github.com/spirit122/commercehub-mcp" class="btn-secondary" target="_blank">
@@ -478,8 +479,8 @@
     <div class="label">Herramientas MCP</div>
   </div>
   <div class="stat-card">
-    <div class="number">4</div>
-    <div class="label">Plataformas</div>
+    <div class="number">8</div>
+    <div class="label">Clientes IA</div>
   </div>
   <div class="stat-card">
     <div class="number">50</div>
@@ -491,6 +492,56 @@
   </div>
 </div>
 
+<!-- AI CLIENTS -->
+<section id="ai-clients">
+  <div class="section-header">
+    <h2>Compatible con todas las IAs</h2>
+    <p>CommerceHub usa el protocolo MCP estandar, compatible con cualquier cliente que soporte Model Context Protocol.</p>
+  </div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:1rem;">
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F4AC;</div>
+      <h3 style="font-size:1rem;">Claude Desktop</h3>
+      <p style="font-size:0.75rem;">App de escritorio</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F4BB;</div>
+      <h3 style="font-size:1rem;">Claude Code</h3>
+      <p style="font-size:0.75rem;">CLI para developers</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F916;</div>
+      <h3 style="font-size:1rem;">ChatGPT</h3>
+      <p style="font-size:0.75rem;">via Open WebUI</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x2728;</div>
+      <h3 style="font-size:1rem;">Gemini</h3>
+      <p style="font-size:0.75rem;">Google AI Studio</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F5B1;</div>
+      <h3 style="font-size:1rem;">Cursor</h3>
+      <p style="font-size:0.75rem;">AI IDE</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F3C4;</div>
+      <h3 style="font-size:1rem;">Windsurf</h3>
+      <p style="font-size:0.75rem;">Codeium IDE</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x25B6;</div>
+      <h3 style="font-size:1rem;">Continue.dev</h3>
+      <p style="font-size:0.75rem;">VS Code / JetBrains</p>
+    </div>
+    <div class="provider-card" style="padding:1.5rem;">
+      <div class="icon" style="font-size:2rem;">&#x1F50D;</div>
+      <h3 style="font-size:1rem;">Cline</h3>
+      <p style="font-size:0.75rem;">VS Code Extension</p>
+    </div>
+  </div>
+</section>
+
 <!-- ARCHITECTURE -->
 <section id="architecture">
   <div class="section-header">
@@ -499,30 +550,28 @@
   </div>
   <div class="arch-diagram">
     <pre>
-          +--------------------+
-          |    Claude / AI     |
-          |      Agent         |
-          +---------+----------+
-                    |
-               MCP Protocol
-               (stdio/SSE)
-                    |
-          +---------+----------+
-          |    CommerceHub     |
-          |    MCP Server      |
-          |                    |
-          |  37 Tools          |
-          |  3 Resources       |
-          |  3 Prompts         |
-          +---------+----------+
-                    |
-     +--------------+--------------+--------------+
-     |              |              |              |
-+----+-----+  +----+-----+  +----+-----+  +-----+----+
-|  Shopify |  |   Woo    |  |  Stripe  |  | Mercado  |
-|  Admin   |  | Commerce |  |   API    |  |  Libre   |
-|  API     |  | REST v3  |  |          |  |   API    |
-+----------+  +----------+  +----------+  +----------+
+  +--------+  +--------+  +--------+  +--------+  +--------+
+  | Claude |  |ChatGPT |  | Gemini |  | Cursor |  |  More  |
+  +---+----+  +---+----+  +---+----+  +---+----+  +---+----+
+      |           |            |           |           |
+      +-----------+------------+-----------+-----------+
+                             |
+                    MCP Protocol (stdio)
+                             |
+                  +----------+----------+
+                  |    CommerceHub      |
+                  |    MCP Server       |
+                  |  37 Tools           |
+                  |  3 Resources        |
+                  |  3 Prompts          |
+                  +----------+----------+
+                             |
+       +---------------------+---------------------+
+       |              |              |              |
+  +----+-----+  +----+-----+  +----+-----+  +-----+------+
+  |  Shopify |  |   Woo    |  |  Stripe  |  | MercadoLibre|
+  |  Admin   |  | Commerce |  |   API    |  |    API      |
+  +----------+  +----------+  +----------+  +-------------+
     </pre>
   </div>
 </section>
