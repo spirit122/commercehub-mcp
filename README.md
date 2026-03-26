@@ -469,6 +469,8 @@ npm install commercehub-mcp
 
 ---
 
-Built with TypeScript + Model Context Protocol
+**Built by [Ricardo Sepúlveda](https://github.com/spirit122)**
+
+TypeScript + Model Context Protocol
 
 </div>
